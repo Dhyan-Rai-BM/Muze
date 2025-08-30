@@ -1,0 +1,29 @@
+type Post {
+  id: ID!
+  content: String!
+  author: User!
+  likes: Int!
+  timestamp: String!
+  imageUrl: String
+}
+
+type User {
+  id: ID!
+  name: String!
+  avatar: String
+}
+
+type Query {
+  getPosts(limit: Int, offset: Int): PostsResponse!
+  getPostById(id: ID!): Post
+}
+
+type Mutation {
+  createPost(content: String!, imageUrl: String): Post!
+  likePost(postId: ID!): Post!
+}
+
+type PostsResponse {
+  posts: [Post!]!
+  total: Int!
+}

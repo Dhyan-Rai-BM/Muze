@@ -1,0 +1,58 @@
+# GraphQL Service Dockerfile
+FROM golang:1.23-alpine AS builder
+
+WORKDIR /app
+
+# Install protobuf compiler
+RUN apk add --no-cache protobuf-dev
+
+# Copy go mod files
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Copy source code
+COPY . .
+
+# Generate protobuf files
+RUN protoc --go_out=. --go_opt=paths=source_relative \
+           --go-grpc_out=. --go-grpc_opt=paths=source_relative \
+           proto/post.proto
+
+# Build GraphQL service
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o graphql-server ./cmd/graphql
+
+# Final stage
+FROM alpine:latest
+
+RUN apk --no-cache add ca-certificates
+
+WORKDIR /root/
+
+# Copy the GraphQL binary
+COPY --from=builder /app/graphql-server .
+
+# Copy environment file
+COPY env.example .env
+
+# Expose GraphQL port
+EXPOSE 7002
+
+# Environment variables will be set at runtime (not hardcoded)
+ENV DB_HOST=
+ENV DB_PORT=5432
+ENV DB_USER=
+ENV DB_PASSWORD=
+ENV DB_NAME=
+
+ENV REDIS_HOST=
+ENV REDIS_PORT=6379
+ENV REDIS_PASSWORD=
+
+ENV NATS_HOST=
+ENV NATS_PORT=4222
+
+ENV GRPC_HOST=
+ENV GRPC_PORT=7001
+
+# Run GraphQL service
+CMD ["./graphql-server"]

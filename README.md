@@ -21,7 +21,7 @@ A complete real time post service built with Go, GraphQL, and gRPC.
 ### 1. Clone and Run
 
 ```bash
-git clone <repository-url>
+git clone git@github.com:Dhyan-Rai-BM/Muze.git
 cd muze
 ./start.sh
 ```
@@ -137,4 +137,7 @@ The repository includes GitHub Actions workflows for automated testing and deplo
 
 - **Health Endpoint**: `GET /health` - Check if services are running
 - **Logs**: View service logs with `tail -f grpc.log` or `tail -f graphql.log`
-# Muze
+
+## Note
+
+The repo doesn't have .gitignore since it is an assessment.

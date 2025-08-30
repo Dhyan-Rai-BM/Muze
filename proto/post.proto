@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package post;
+
+import "google/protobuf/wrappers.proto";
+
+option go_package = "muze/proto";
+
+service PostService {
+  rpc GetPosts(GetPostsRequest) returns (GetPostsResponse);
+  rpc CreatePost(CreatePostRequest) returns (Post);
+  rpc GetPostById(GetPostByIdRequest) returns (Post);
+  rpc LikePost(LikePostRequest) returns (Post);
+  rpc StreamPosts(StreamPostsRequest) returns (stream Post);
+}
+
+message Post {
+  string id = 1;
+  string content = 2;
+  string author_id = 3;
+  string author_name = 4;
+  google.protobuf.StringValue image_url = 5;
+  int32 likes = 6;
+  string timestamp = 7;
+}
+
+message GetPostsRequest {
+  int32 limit = 1;
+  int32 offset = 2;
+}
+
+message GetPostsResponse {
+  repeated Post posts = 1;
+  int32 total = 2;
+}
+
+message CreatePostRequest {
+  string content = 1;
+  string author_id = 2;
+  google.protobuf.StringValue image_url = 3;
+}
+
+message GetPostByIdRequest {
+  string id = 1;
+}
+
+message LikePostRequest {
+  string post_id = 1;
+  string user_id = 2;
+}
+
+message StreamPostsRequest {
+  string user_id = 1;
+}
