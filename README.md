@@ -1,6 +1,6 @@
 # Muze Real-Time Post Service
 
-A complete real-time post service built with Go, GraphQL, and gRPC. Perfect for learning, demos, and interviews.
+A complete real time post service built with Go, GraphQL, and gRPC.
 
 ## What It Does
 
@@ -44,7 +44,7 @@ cd muze
 
 ## Configuration
 
-No configuration needed! The service automatically creates a `.env` file with default values.
+No configuration needed. The service automatically creates a `.env` file with default values.
 
 **All services are pre-configured and ready to run.**
 
